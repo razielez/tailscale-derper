@@ -6,6 +6,7 @@ RUN git clone  --depth 1 --branch v1.76.6 https://github.com/tailscale/tailscale
 
 WORKDIR /workspace/tailscale/cmd/derper
 
+RUN go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
 RUN go build
 
 FROM ubuntu:jammy-20240227
@@ -13,4 +14,4 @@ FROM ubuntu:jammy-20240227
 WORKDIR /app
 
 COPY --from=builder /workspace/tailscale/cmd/derper/derper /app/derper
-CMD ["/app/derper"]
+ENTRYPOINT [ "/app/derper"]
